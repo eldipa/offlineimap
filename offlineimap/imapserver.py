@@ -760,7 +760,10 @@ class IMAPServer(object):
             return # Noop on bad connection.
 
         self.connectionlock.acquire()
-        self.assignedconnections.remove(connection)
+        try:
+          self.assignedconnections.remove(connection)
+        except:
+          pass # TODO
         # Don't reuse broken connections
         if connection.Terminate or drop_conn:
             connection.logout()
